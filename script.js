@@ -1,61 +1,104 @@
 
 let playerScore = 0;
 let computerScore = 0;
+const computerP = document.querySelector("#computer-score");
+const playerp = document.querySelector("#player-score");
+const div = document.querySelector(".result");
 
-function playRound(playerSelection,computerSelection){
+function playGame(playerSelection,computerSelection){
 
     playerSelection = playerSelection.toLowerCase();
     if(playerSelection === "rock" && computerSelection === "rock" ){
-        return "Draw! both picked Rock";
+        
+        addResultText("Draw! both picked Rock");
     }
 
     else if(playerSelection === "rock" && computerSelection === "paper"){
         
         computerScore++;
-        return "You lose! Paper beats Rock";
+        addPoints(computerP,computerScore); 
+        addResultText("You lose! Paper beats Rock");
     }
 
     else if(playerSelection === "rock" && computerSelection === "sciccors"){
         
         playerScore++;
-        return "You won! Rock beats sciccors";
+        addPoints(playerp,playerScore);
+        addResultText("You won! Rock beats sciccors");
     }
 
     else if(playerSelection === "sciccors" && computerSelection === "paper"){
         
         playerScore++;
-        return "You won! Sciccors beats Paper";
+        addResultText("You won! Sciccors beats Paper");
     }
 
     else if(playerSelection === "sciccors" && computerSelection === "rock"){
         
         computerScore++;
-        return "You Lose! Rock beats sciccors";
+        addPoints(computerP,computerScore);
+        addResultText("You Lose! Rock beats sciccors");
     }
 
     else if(playerSelection === "sciccors" && computerSelection ==="sciccors"){
-        return "Draw, both picked sciccors";
+        addResultText("Draw, both picked sciccors");
     }
 
     else if(playerSelection === "paper" && computerSelection === "rock"){
         
         playerScore++;
-        return "You won! Paper beats Rock";
+        addPoints(playerp,playerScore);
+        addResultText("You won! Paper beats Rock");
     }
 
     else if(playerSelection === "paper" && computerSelection === "sciccors"){
         
         computerScore++;
-        return "You lost! Sciccors beats Paper";
+        addPoints(computerP,computerScore);
+        addResultText("You lost! Sciccors beats Paper");
     }
 
     else if(playerSelection === "paper" && computerSelection === "paper"){
-        return "Draw! both picked Paper";
+        addResultText("Draw! both picked Paper");
     }
 
 }
 
 
+function addPoints(winner,currentScore){
+
+    let tempText = document.createTextNode(currentScore);
+    winner.innerHTML = currentScore;
+    
+    if(computerScore === 5){
+        announceWinner("Computer");
+        return;
+    }
+
+    else if(playerScore === 5){
+        announceWinner("Player");
+        return;
+    }
+    
+
+}
+
+
+function addResultText(text){ //Adding text to result div
+    const result = document.createElement("p");
+    const resultText = document.createTextNode(text);
+    result.appendChild(resultText);
+    div.appendChild(result);
+
+}
+
+function removeText(){
+
+   if(document.querySelectorAll(".result> p").length === 2){
+    document.querySelectorAll(".result > p")[0].remove();
+   }
+
+}
 function getComputerChoise()
 {
     let choise = Math.floor(Math.random() * 3);
@@ -78,37 +121,30 @@ function getComputerChoise()
 }
 
 
+function announceWinner(winner){
+    const winnerH1 = document.createElement("h1");
+    const winnerText = document.createTextNode(winner +" is the winner!");
 
-function game(){
+    winnerH1.appendChild(winnerText);
 
-    
+    winnerH1.style ="color:green";
 
-    for(let i = 0; i<5;i++){
-        let playerChoise = prompt("Choise rock paper or scciccors");
-        let computerChoise = getComputerChoise();
+    div.appendChild(winnerH1);
 
-        console.log(playRound(playerChoise,computerChoise));
-
-    }
-
-
-    if(playerScore > computerScore){
-        let scoreDiff = playerScore - computerScore;
-        console.log(`You win with ${scoreDiff} points`);
-
-    }
-
-    else if(playerScore){
-        let scoreDiff = computerScore - playerScore;
-        
-        console.log(`You lost with ${scoreDiff} points`);
-    }
-
-    else{
-        console.log(computerScore + " " + playerScore );
-        console.log("Draw in total");
-    }
-
-    playerScore = 0;
-    computerScore = 0;
 }
+
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach(button => {
+    button.addEventListener("click", () => {
+
+       
+
+        playGame(button.id,getComputerChoise());
+        removeText();
+        
+    });
+});
+
+
