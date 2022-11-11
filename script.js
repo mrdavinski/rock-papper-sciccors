@@ -3,7 +3,8 @@ let playerScore = 0;
 let computerScore = 0;
 const computerP = document.querySelector("#computer-score");
 const playerp = document.querySelector("#player-score");
-const div = document.querySelector(".result");
+const div = document.querySelector(".result-message");
+let canPlay = true;
 
 function playGame(playerSelection,computerSelection){
 
@@ -65,8 +66,8 @@ function playGame(playerSelection,computerSelection){
 }
 
 
-function addPoints(winner,currentScore){
-
+function addPoints(winner,currentScore){   //Add a point to the winner of the round 
+    
     let tempText = document.createTextNode(currentScore);
     winner.innerHTML = currentScore;
     
@@ -84,7 +85,7 @@ function addPoints(winner,currentScore){
 }
 
 
-function addResultText(text){ //Adding text to result div
+function addResultText(text){ //Adding text to result-message div
     const result = document.createElement("p");
     const resultText = document.createTextNode(text);
     result.appendChild(resultText);
@@ -92,14 +93,14 @@ function addResultText(text){ //Adding text to result div
 
 }
 
-function removeText(){
+function removeText(){   //Remove the old <p> when you get a new one 
 
-   if(document.querySelectorAll(".result> p").length === 2){
-    document.querySelectorAll(".result > p")[0].remove();
+   if(document.querySelectorAll(".result-message > p").length === 2){
+    document.querySelectorAll(".result-message > p")[0].remove();
    }
 
 }
-function getComputerChoise()
+function getComputerChoise()   //Get the computerschoise 
 {
     let choise = Math.floor(Math.random() * 3);
 
@@ -122,14 +123,30 @@ function getComputerChoise()
 
 
 function announceWinner(winner){
+    
+
+    // Remove result message <p>
     const winnerH1 = document.createElement("h1");
-    const winnerText = document.createTextNode(winner +" is the winner!");
+    const winnerText = document.createTextNode(winner +" is the winner!")
 
     winnerH1.appendChild(winnerText);
 
-    winnerH1.style ="color:green";
 
+    if(winner === "Player"){
+        winnerH1.style ="color:green";
+    }
+
+    else{
+        winnerH1.style ="color:red";
+    }
+    
     div.appendChild(winnerH1);
+    canPlay = false;
+    const playAgain = document.createElement("p");
+    const playAgainText = document.createTextNode("Refresh to play again");
+
+    playAgain.appendChild(playAgainText);
+    document.querySelector(".play-again").appendChild(playAgain);
 
 }
 
@@ -137,14 +154,15 @@ function announceWinner(winner){
 const buttons = document.querySelectorAll("button");
 
 buttons.forEach(button => {
-    button.addEventListener("click", () => {
-
-       
-
-        playGame(button.id,getComputerChoise());
-        removeText();
-        
-    });
+    
+        button.addEventListener("click", () => {
+            if(canPlay){
+                playGame(button.id,getComputerChoise());
+                removeText();
+            }
+        });
+    
+    
 });
 
 

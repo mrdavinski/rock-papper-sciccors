@@ -5,29 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
+    <link rel="stylesheet" href="style.css">
     
 </head>
 <body>
-    <button id="rock">Rock</button>
-    <button id="paper">Paper</button>
-    <button id="sciccors">Sciccors</button>
 
+    <div class ="game-play">
+
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="sciccors">Sciccors</button>
+
+    </div>
+    <div class="result-message">
+
+
+
+    </div>
     <div class="result">
+        
+        
+        <div class="score">
+            <div class="player-score-block">
+                <p>Your score: </p>
+            <p id="player-score"> 0 </p>
+            </div>
 
 
+            
+            <div class="computer-score-block">
+                <p>Computer score:</p>
+                <p id ="computer-score">0</p>
+
+            </div>
+            
+        </div>
 
     </div>
 
 
-    <div class="score">
-        <p>Your score: </p>
-        <p id="player-score"> 0 </p>
-        <p>Computer score:</p>
-        <p id ="computer-score">0</p>
+    
+
+    <div class="play-again">
+
+
+
     </div>
-
-
 
     <script src="script.js"></script>
 
